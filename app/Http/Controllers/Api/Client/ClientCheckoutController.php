@@ -3,8 +3,8 @@
 namespace CodeDelivery\Http\Controllers\Api\Client;
 
 use CodeDelivery\Http\Controllers\Controller;
+use CodeDelivery\Http\Requests\CheckoutRequest;
 use CodeDelivery\Repositories\OrderRepository;
-use CodeDelivery\Repositories\ProductRepository;
 use CodeDelivery\Repositories\UserRepository;
 use CodeDelivery\Services\OrderService;
 use Illuminate\Http\Request;
@@ -18,19 +18,14 @@ class ClientCheckoutController extends Controller
      */
     private $userRepository;
     /**
-     * @var ProductRepository
-     */
-    private $productRepository;
-    /**
      * @var OrderService
      */
     private $service;
 
-    public function __construct(OrderRepository $repository, UserRepository $userRepository, ProductRepository $productRepository, OrderService $service)
+    public function __construct(OrderRepository $repository, UserRepository $userRepository, OrderService $service)
     {
         $this->repository = $repository;
         $this->userRepository = $userRepository;
-        $this->productRepository = $productRepository;
         $this->service = $service;
     }
 
@@ -44,7 +39,7 @@ class ClientCheckoutController extends Controller
         return $orders;
     }
 
-    public function store(Request $request)
+    public function store(CheckoutRequest $request)
     {
         $data = $request->all();
         $id = Authorizer::getResourceOwnerId();
@@ -58,9 +53,9 @@ class ClientCheckoutController extends Controller
     public function show($id)
     {
         $o = $this->repository->with(['client', 'items','cupom'])->find($id);
-        $o->items->each(function($item){
-            $item->product;
-        });
+//        $o->items->each(function($item){
+//            $item->product;
+//        });
         return $o;
     }
 }
