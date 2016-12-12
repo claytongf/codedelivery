@@ -2,6 +2,7 @@
 
 namespace CodeDelivery\Repositories;
 
+use CodeDelivery\Presenters\UserPresenter;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use CodeDelivery\Repositories\UserRepository;
@@ -36,5 +37,12 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     public function boot()
     {
         $this->pushCriteria(app(RequestCriteria::class));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function presenter(){
+        return UserPresenter::class;
     }
 }
