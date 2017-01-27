@@ -29,7 +29,7 @@ class OAuthCheckRole
     {
         $id = Authorizer::getResourceOwnerId();
         $user = $this->userRepository->skipPresenter()->find($id);
-        if($user['data']['role'] != $role){
+        if($user->role != $role){
             abort(403, "Access Forbidden");
         }
         return $next($request);
